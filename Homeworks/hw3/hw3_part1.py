@@ -1,0 +1,17 @@
+# File:        hw3_part1.py
+# Written by:  Edward Hanson
+# Date:        9/19/15
+# Lab Section: 18
+# UMBC email:  ehanson1@umbc.edu
+# Description: Averages 3 user inputted floats.
+
+
+def main():
+     firstFloat = float(input("Please enter a decimal number: "))
+     secondFloat = float(input("Please enter a second decimal number: "))
+     thirdFloat = float(input("Please enter a third decimal number: "))
+
+     average = (firstFloat + secondFloat + thirdFloat) / 3
+     print("The average of all three is", average)
+
+main()

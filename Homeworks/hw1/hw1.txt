@@ -1,0 +1,48 @@
+Question 1
+1. Take the number 7.
+2. For an integer  above 1 and below 7:
+3. Divide 7 by the integer.
+4. Repeat for all integers above 1 and below 7.
+5. If one or more of the divisions resulted in an integer quotient:
+6. Then 7 is not a prime number.
+7. If one or more of the divisions did not result in an integer quotient:
+8. Then 7 is a prime number.
+
+Question 2
+1. Take a number.
+2. For each integer that is above 1 and below the given number:
+3. Divide the given number by the integer.
+4. Repeat for all integers above 1 and below the given number.
+5. If one or more of the divisions resulted in an integer quotient:
+6. Then the given number is not a prime number.
+7. If one or more of the divisions did not result in an integer quotient:
+8. Then the given number is a prime number.
+
+Question 3
+1.  Take a word.
+2.  Note the number of letters (n) in the word.
+3.  If the word has an odd number of letters:
+4.  Then the word is not a palindrome.
+5.  For each letter in the word:
+6.  Note the place value (v) of the letter in the word.
+7.  Compare the letter with a letter whose place value in the word is (n+1)-v.
+8.  Repeat for the next letter until all letters of the word have been compared.
+9.  If all compared numbers are the same:
+10. Then the given word is a palendrome.
+11. If at least one of the compared letters aren't the same:
+12. Then the given word is not a palendrome.
+
+Question 4
+1. Take the first card and note its number value.
+2. Store the first card's number value as the highest number value.
+3. For each card in the stack:
+4. Take a card and note its number value.
+5. Compare the number value of the card with the current highest number value.
+6. If the number value of the card is higher than the current highest number value:
+7. Replace and store the current highest number value with the card's number value.
+8. Repeat for the next card until all cards in the stack have been checked.
+
+Question 5
+1. Take a positive integer and note its value.
+2. Find all positive integers below the given integer and note their value.
+3. Multiply all of the noted integers together.

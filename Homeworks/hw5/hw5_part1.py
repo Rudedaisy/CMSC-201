@@ -1,0 +1,15 @@
+# File:        hw5_part1.py
+# Written by:  Edward Hanson
+# Date:        10/9/15
+# Lab Section: 18
+# UMBC email:  ehanson1@umbc.edu
+# Description: Asks the user to enter a number within 0-100, inclusive.
+
+
+def main():
+    number = -1
+    while number < 0 or number > 100:
+        number = int(input("Please enter a number between 0 and 100, inclusive: "))
+    print("Thank you for selecting the number", number)
+
+main()

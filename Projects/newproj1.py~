@@ -1,0 +1,121 @@
+# File:        proj1.py
+# Written by:  Edward Hanson
+# Date:        11/3/15
+# Lab Section: 18
+# UMBC email:  ehanson1@umbc.edu
+# Description: Allows the user to play "Conway's Game of Life". Information
+#              on the game's rules can be found here:
+#              https://en.wikipedia.org/wiki/Conway's_Game_of_Life
+
+
+DEAD = "."
+ALIVE = "A"
+
+def main():
+    board, newBoard = makeBoard()
+    setBoard(board)
+    iterations = input("How many iterations should I run? ")
+    iterations = checkInput(iterations, 0, "none", "how many iterations I should run: ")
+    print("Starting Board:\n")
+    printBoard(board)
+    for iterationNum in range(0, int(iterations)):
+        print("Iteration", (iterationNum+1), ":\n")
+        board = nextIteration(board, newBoard)
+        printBoard(board)
+
+# creates the board through user input
+def makeBoard():
+    board = []
+    newBoard = []
+    lineNum = 0
+    elemNum = 0
+    rows = input("Please enter number of rows: ")
+    rows = checkInput(rows, 1, "none", "number of rows: ")
+    columns = input("Please enter number of columns: ")
+    columns = checkInput(columns, 1, "none", "number of columns: ")
+    for j in range(0, int(rows)):
+        board.append([])
+        newBoard.append([])
+        for i in range(0, int(columns)):
+            board[j].append(DEAD)
+            newBoard[j].append(DEAD)
+    return board, newBoard
+
+# prints out the board's contents 
+def printBoard(board):
+    for row in board:
+        for column in row:
+            print(column + " ", end = "")
+        print()
+
+# initializes which cells are alive or not
+def setBoard(board):
+    row = ""
+    column = ""
+    SHIFT = -1
+    while row != "q":
+        row = input("Please enter the row of a cell to turn on (or 'q' to exit): ")
+        if row != "q":
+            row = checkInput(row, 0, len(board)+SHIFT, "the row of a cell to turn on (or 'q' to exit): ")
+            column = input("Please enter a column for the cell: ")
+            column = checkInput(column, 0, len(board[0])+SHIFT, "a column for the cell: ")
+            board[int(row)][int(column)] = "A"
+    return board
+
+# determines the next iteration of the board
+def nextIteration(board, newBoard):
+    numMatch = 0
+    PERIMETER = [-1,0,1]
+    MAX_TO_LIVE = 3
+    MIN_TO_LIVE = 2
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            for line in PERIMETER:
+                for element in PERIMETER:
+                    if (row+line >= 0 and column+element >= 0) and (row+line < len(board) and column+element < len(board[row])):
+                        if board[row+line][column+element] == ALIVE:
+                            numMatch += 1
+            if board[row][column] == ALIVE:
+                newBoard[row][column] == ALIVE
+                if (numMatch-1) > MAX_TO_LIVE or (numMatch-1) < MIN_TO_LIVE:
+                    newBoard[row][column] = DEAD
+            elif board[row][column] == DEAD:
+                newBoard[row][column] = DEAD
+                if numMatch == MAX_TO_LIVE: 
+                    newBoard[row][column] = ALIVE
+            numMatch = 0
+    board = changeBoard(board, newBoard)
+    return board
+
+# replaces board with the new board layout
+def changeBoard(board, newBoard):
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            board[row][column] = newBoard[row][column]
+    return board
+
+# checks if the user's input is correct
+def checkInput(value, minimum, maximum, request):
+    status = False
+    while status == False:
+        if minimum == "none":
+            if float(value) > maximum:
+                print("\tIncorrect input!\n\tPlease enter a number less than or equal to", maximum)
+                value = input("Please enter " + request)
+            else:
+                status = True
+        elif maximum == "none":
+            if float(value) < minimum:
+                print("\tIncorrect input!\n\tPlease enter a number greater than or equal to", minimum)
+                value = input("Please enter " + request)
+            else:
+                status = True
+        else:
+            if float(value) > maximum or float(value) < minimum:
+                print("\tIncorrect input!\n\tPlease enter a number between "+ str(minimum) +" and "+ str(maximum) + " inclusive...")
+                value = input("Please enter " + request)
+            else:
+                status = True
+    return value
+
+main()

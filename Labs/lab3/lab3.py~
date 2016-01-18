@@ -1,0 +1,14 @@
+# File:        lab3.py
+# Author:      Edward Hanson
+# Date:        09/15/2015
+# Section:     18
+# Email:       ehanson1@umbc.edu
+# Description: Calculates a car's MPG
+
+
+def main()
+       milesTraveled = float(input("Please enter amount of miles traveled: ")) 
+       gasUsed = float(input("Please enter amount of gallons of gas used: "))
+       MPG = milesTraveled / gasUsed
+       print("Your miles per gallon (MPG) is: ", MPG)
+main()

@@ -1,0 +1,35 @@
+# File:        hw8_part3.py
+# Written by:  Edward Hanson
+# Date:        11/20/15
+# Lab Section: 18
+# UMBC email:  ehanson1@umbc.edu
+# Description: Finds the greatest common denominator between two inputed numbers
+
+
+def main():
+    greater = 0
+    num1 = int(input("Please enter the first integer: "))
+    while num1 < 1:
+        print("Incorrect input! Value of first integer must be greater than or equal to 1.")
+        num1 = int(input("Please enter the first integer: "))
+    num2 = int(input("Please enter the second integer: "))
+    while num2 < 1:
+        print("Incorrect input! Value of second integer must be greater than or equal to 1.")
+        num2 = int(input("Please enter the second integer: "))
+    # finds the greater value to start the recursive function with
+    if num1 > num2:
+        greater = num1
+    else:
+        greater = num2
+    print("The GCD of " + str(num1) + " and " + str(num2) + " is " + str(gcd(num1, num2, greater)))
+
+# gcd() finds the greatest common denominator between 2 numbers
+# Input: first number, second number, and a test integer that helps find the appropriate GCD
+# Output: the greatest common denominator of 2 different numbers
+def gcd(num1, num2, trial):
+    if (num1 % trial == 0) and (num2 % trial == 0):
+        return trial
+    else:
+        return gcd(num1, num2, trial - 1)
+
+main()

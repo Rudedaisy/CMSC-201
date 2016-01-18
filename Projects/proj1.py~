@@ -1,0 +1,149 @@
+# File:        proj1.py
+# Written by:  Edward Hanson
+# Date:        11/3/15
+# Lab Section: 18
+# UMBC email:  ehanson1@umbc.edu
+# Description: Allows the user to play "Conway's Game of Life". Information
+#              on the game's rules can be found here:
+#              https://en.wikipedia.org/wiki/Conway's_Game_of_Life
+
+
+# main() runs the program in order to satisfy the goal as specified in the description
+# Input: the board, a duplicate board, the next iteration of the board
+# Output: the board in a readable layout and the  next iteration of the board
+def main():
+    global DEAD
+    DEAD = "."
+    global ALIVE
+    ALIVE = "A"
+    board, newBoard = makeBoard()
+    setBoard(board)
+    iterations = input("How many iterations should I run? ")
+    iterations = checkInput(iterations, 0, "none", "how many iterations I should run: ")
+    print("Starting Board:\n")
+    printBoard(board)
+    for iterationNum in range(0, int(iterations)):
+        print("Iteration", (iterationNum + 1), ":\n")
+        board = nextIteration(board, newBoard)
+        printBoard(board)
+
+# makeBoard() creates the board through user input
+# Input: the number of rows and columns in the board
+# Output: the board to be used and a duplicate board that will record all the 
+#         future iterations
+def makeBoard():
+    board = []
+    newBoard = []
+    rows = input("Please enter number of rows: ")
+    rows = checkInput(rows, 1, "none", "number of rows: ")
+    columns = input("Please enter number of columns: ")
+    columns = checkInput(columns, 1, "none", "number of columns: ")
+    for j in range(0, int(rows)):
+        board.append([])
+        newBoard.append([])
+        for i in range(0, int(columns)):
+            board[j].append(DEAD)
+            newBoard[j].append(DEAD)
+    return board, newBoard
+
+# printBoard() prints out the board's contents by converting it from a list to a
+#              readable layout
+# Input: the board list that was created in a previous function
+# Output: the board in a neat, readable layout 
+def printBoard(board):
+    for row in board:
+        for column in row:
+            print(column + " ", end = "")
+        print()
+
+# setBoard() initializes which cells are alive or not
+# Input: the board list and the row and column of a cell to be made alive
+# Ouput: the altered board list with new cells that are made alive
+def setBoard(board):
+    row = ""
+    column = ""
+    SHIFT = -1
+    while row != "q":
+        row = input("Please enter the row of a cell to turn on (or 'q' to exit): ")
+        row = checkInput(row, 0, len(board) + SHIFT, "the row of a cell to turn on (or 'q' to exit): ")
+        if row != "q":
+            column = input("Please enter a column for the cell: ")
+            column = checkInput(column, 0, len(board[0]) + SHIFT, "a column for the cell: ")
+            board[int(row)][int(column)] = ALIVE
+    return board
+
+# nextIteration() determines the next iteration of the board
+# Input: both the board and the duplicate board
+# Output: the next iteration of the board after its contents have been 
+#         examined and altered
+def nextIteration(board, newBoard):
+    numMatch = 0
+    PERIMETER = [-1, 0, 1]
+    MAX_TO_LIVE = 3
+    MIN_TO_LIVE = 2
+    # checks each element of the board
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            # checks each neighbor of the current element for "ALIVE" cells
+            for line in PERIMETER:
+                for element in PERIMETER:
+                    # ensures that the coordinate to be checked is not out of bounds or equal to the coordinate of the current element
+                    if (row + line >= 0 and column + element >= 0) and (row + line < len(board) and column + element < len(board[row])):
+                        if board[row + line][column + element] == ALIVE:
+                            numMatch += 1
+            # determines what to do with a cell depending on its current state
+            if board[row][column] == ALIVE:
+                newBoard[row][column] = ALIVE
+                if (numMatch - 1) > MAX_TO_LIVE or (numMatch - 1) < MIN_TO_LIVE:
+                    newBoard[row][column] = DEAD
+            elif board[row][column] == DEAD:
+                newBoard[row][column] = DEAD
+                if numMatch == MAX_TO_LIVE: 
+                    newBoard[row][column] = ALIVE
+            numMatch = 0
+    board = changeBoard(board, newBoard)
+    return board
+
+# changeBoard() replaces board with the new board layout
+# Input: both the board and the altered duplicate board
+# Output: the next iteration of the board after its contents have been
+#         compared and changed through the duplicate board
+def changeBoard(board, newBoard):
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            board[row][column] = newBoard[row][column]
+    return board
+
+# checkInput() checks whether or not the user's input is correct
+# Input: the user's value to be checked, the minimum and maximum valid 
+#        values for this inputed value, and a statement to be used whenever 
+#        requesting another user input
+# Output: the appropriate user input
+def checkInput(value, minimum, maximum, request):
+    status = False
+    while status == False:
+        if value == "q":
+            status = True
+        else: 
+            # checks if a value has a minimum or maximum appropriate value
+            if minimum == "none":
+                if float(value) > maximum:
+                    print("\tIncorrect input!\n\tPlease enter a number less than or equal to", maximum)
+                    value = input("Please enter " + request)
+                else:
+                    status = True
+            elif maximum == "none":
+                if float(value) < minimum:
+                    print("\tIncorrect input!\n\tPlease enter a number greater than or equal to", minimum)
+                    value = input("Please enter " + request)
+                else:
+                    status = True
+            else:
+                if float(value) > maximum or float(value) < minimum:
+                    print("\tIncorrect input!\n\tPlease enter a number between "+ str(minimum) +" and "+ str(maximum) + " inclusive...")
+                    value = input("Please enter " + request)
+                else:
+                    status = True
+    return value
+
+main()
